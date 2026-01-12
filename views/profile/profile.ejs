@@ -1,0 +1,142 @@
+<% layout("./boilerplate/boilerplate") -%>
+    <div class="container">
+        <!-- Profile Card -->
+        <div class="card text-light p-4 rounded-4  mb-5"
+            style="background-color: black; border-bottom: 1px solid #333;">
+            <div class="d-flex flex-column flex-md-row align-items-center gap-4">
+
+                <!-- Profile Image -->
+                <div>
+                    <img src="<%= userProfile.image.url %>" alt="<%= userProfile.name %>"
+                        class="rounded-circle border border-secondary"
+                        style="height:150px; width:150px; object-fit: cover;">
+                </div>
+
+                <!-- Profile Details -->
+                <div class="flex-grow-1">
+                    <h2 class="fw-bold text-white">
+                        <%= userProfile.name %>
+                    </h2>
+                    <p class="text-secondary mb-1">@<%= userProfile.username %>
+                    </p>
+                    <p class="text-light">
+                        <%= userProfile.bio %>
+                    </p>
+                    <p class="text-muted small">Joined:
+                        <%= new Date(userProfile.createdAt).toLocaleDateString() %>
+                    </p>
+                    <p>
+                        <span> <a href="/profile/<%= userProfile.username %>/following"
+                                class="text-white text-decoration-none"><b>
+                                    <%= userProfile.following.length %>
+                                </b>following</a>
+                        </span>
+                        &nbsp;
+                        <span><a href="/profile/<%= userProfile.username %>/follower"
+                                class="text-white text-decoration-none"><b>
+                                    <%= userProfile.followers.length %>
+                                </b>followers</a></span>
+                    </p>
+                    <!-- Example Buttons -->
+                    <div class="d-flex gap-2 mt-3">
+                        <% if (String(currUser._id) !==String(userProfile._id)) { %>
+                                <% // Check if current user is following the profile user let
+                                    isFollowing=userProfile.followers.some(follower=> String(follower) ===
+                                    String(currUser._id));
+
+                                    // Check if profile user is following the current user back
+                                    let isFollower = currUser.followers.some(follower => String(follower) ===
+                                    String(userProfile._id)); 
+                                %>
+                                    <button 
+                                    class="btn btn-outline-light btn-sm rounded-pill following" 
+                                    id="followBtn" 
+                                    data-username="<%= userProfile.username %>"
+                                  >
+                                    <%= isFollowing ? (isFollower ? "Following (Follows You)" : "Following" ) : (isFollower ? "Follow Back" : "Follow" ) %>
+                                  </button>
+                            <button class="btn btn-outline-secondary btn-sm rounded-pill">Message</button>
+                        <% } %>
+                        <% if(String(currUser._id) === String(userProfile._id)) {%>
+                            <form action="/profile/<%= userProfile.username %>/edit" method="get" class="d-flex">
+                                <button class="btn btn-outline-dark text-white fw-bold btn-sm rounded-pill following" style="padding: 0.3rem 0.9rem; border: 1px solid #7c7272;">
+                                   Edit Profile
+                                </button>
+                            </form>
+                            <% } %>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="container py-4">
+            <% for (let post of posts) { %><a href="/posts/<%= post._id %>" class="text-decoration-none">
+                    <div class="devConnect-post card bg-dark text-light mb-4 p-3 rounded-4 post-card"
+                        data-created-at="<%= post.createdAt %>"
+                        style="background-color: black !important; border-bottom: 1px solid #333;">
+                        <div class="d-flex gap-3">
+                            <!-- Avatar -->
+                            <div>
+                                <img src="<%= post.owner.image.url %>" alt="<%= post.owner.name %>"
+                                    class="rounded-circle border border-secondary"
+                                    style="height:50px; width:50px; object-fit:cover;">
+                            </div>
+
+                            <!-- Post Content -->
+                            <div class="flex-grow-1">
+                                <!-- Name and Username -->
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                    <p class="mb-0 fw-bold text-white">
+                                        <%= post.owner.name %>
+                                    </p>
+                                    <p class="mb-0 text-secondary">@<%= post.owner.username %>
+                                    </p>
+                                    <p class="mb-0 text-secondary small time">• Posted:
+                                        Calculating...</p>
+                                </div>
+
+                                <!-- Title -->
+                                <h5 class="text-white mb-2">
+                                    <%= post.title %>
+                                </h5>
+
+                                <!-- Content -->
+                                <p class="text-light mb-3">
+                                    <%= post.content %>
+                                </p>
+
+                                <!-- Code -->
+                                <pre class="rounded-4 p-3 text-success border border-dark"
+                                    style="background-color: black; border-radius: 1rem;">
+                            <code style="background-color: inherit;">
+                                <%= post.code %>
+                            </code>
+                        </pre>
+
+                        <form action="/posts/<%= post._id %>/like" method="POST">
+                            <button type="submit" class="like-btn" 
+                            data-post-id="<%= post._id %>"  style="border: none; background: none; padding: 0;">
+                                <% if (post.likes.includes(currUser._id)) { %>
+                                    <!-- User already liked -->
+                                    <i class="fa-solid fa-heart" style="color: #ff0000; cursor: pointer;"></i>
+                                    <% } %>
+            
+                                        <% if(!post.likes.includes(currUser._id)) { %>
+                                            <!-- User has not liked yet -->
+                                            <i class="fa-regular fa-heart"
+                                                style="color: rgb(94, 87, 87); cursor: pointer;"></i>
+                                            <% } %>
+                            </button>
+                            <span class="like-count text-white">
+                                <%= post.likes.length %>
+                            </span>
+                        </form>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+
+    </div>

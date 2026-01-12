@@ -1,0 +1,9 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+    <div class="alert alert-danger d-flex align-items-center justify-content-between rounded-pill p-3 m-4 fw-500"
+        role="alert" style="background-color: rgba(255, 0, 0, 0.295); color: rgb(255, 0, 0); border: 2px solid red">
+        <div>
+            ERROR: <%= message %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+            style="background-color: white;"></button>
+    </div>

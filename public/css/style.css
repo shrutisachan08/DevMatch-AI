@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: black;
+}
+
+/* Index Page Post Styling */
+
+.post {
+    border: 2px solid black;
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.post:hover {
+    background-color: #33333334;
+}
+
+.fa-brands.fa-deviantart {
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+    padding-left: 15px;
+    filter: drop-shadow(10px 10px 10px rgb(145, 3, 3));
+}
+
+span.fs-4 {
+    font-weight: 900;
+    font-size: 2rem !important;
+    color: rgb(245, 240, 240);
+    filter: drop-shadow(10px 10px 10px brown);
+}
+
+.d-flex.flex-column.flex-shrink-0.p-3.text-white.bg-dark {
+    background-color: black !important;
+    width: 350px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+li .link-dark-rounded {
+    color: whitesmoke !important;
+}
+
+#account-collapse ul li a {
+    color: whitesmoke !important;
+    text-decoration: none;
+
+    color: brown;
+
+}
+
+#account-collapse ul li {
+    list-style-type: none;
+}
+
+button.btn.btn-toggle.align-items-center.rounded.text-white {
+    color: whitesmoke;
+    margin: 1rem;
+    font-size: 2rem;
+    border-radius: 1rem !important;
+    /* border: 2px solid rgb(169, 169, 224); */
+    box-shadow: 3px 3px 10px rgb(169, 169, 224);
+}
+
+li a.nav-link {
+    color: white;
+    font-size: 1.3rem;
+    padding: 0.9rem;
+}
+
+li a.nav-link i {
+    padding-right: 0.4rem;
+}
+
+li a.nav-link:hover {
+    color: #ffffffa8;
+    opacity: 0.7;
+}
+
+li a.nav-link:focus {
+    color: rgb(255, 0, 242);
+}
+
+/* a[href="/posts/new"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+} */
+
+/* Sidebar Button Post Styling */
+
+li a button.post {
+    width: 85%;
+    border-radius: 2.5rem;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin: 10px;
+}
+
+li a button.post:hover {
+    color: black;
+    background-color: white;
+}
+
+.reply:hover {
+    opacity: 1 !important;
+}
+
+input[name="comment[comment]"] {
+    border: none;
+    outline: none !important;
+    height: 100px;
+}
+
+input[name="comment[comment]"]:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Dropdown */
+
+
+.dropdown-menu .dropdown-item:focus {
+    background-color: none !important;
+    box-shadow: 10px 10px 10px rgba(0, 255, 255, 0.082);
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: burlywood !important;
+    border-radius: 1rem;
+    box-shadow: 10px 10px 10px rgba(0, 255, 255, 0.082);
+}
+
+.dropdown,
+.dropend,
+.dropstart,
+.dropup {
+    bottom: -280px;
+}
+
+.user {
+    position: relative;
+    bottom: -250px;
+}
+
+.user a {
+    margin-bottom: 5px;
+}
+
+/* User Posts Menu Icon */
+
+.post-option-icon {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    padding: 0.6rem;
+    font-size: 1.3rem !important;
+    color: #6c757d;
+}
+
+.post-option-icon:hover {
+    border-radius: 100%;
+    background-color: rgba(0, 255, 255, 0.103);
+    color: rgba(0, 255, 255, 0.781);
+}
+
+.menu {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    width: 200px;
+    right: 0;
+    background-color: black;
+    border: 1px solid #333;
+    border-radius: 1rem;
+    box-shadow: 4px 4px 10px #333;
+    z-index: 1;
+}
+
+.menu-content.show {
+    display: block !important;
+}
+
+.menu-option {
+    width: 100%;
+    margin: none !important;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    text-align: start;
+    padding: 1rem;
+    border: none;
+}
+
+.menu-option:hover{
+    background-color: #1d1b1b77 !important;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+.following-btn:hover{
+    border-color: red;
+}
+
+/* Like Button */
+
+/* .fa-solid.fa-heart{
+    display: none;
+} */
+
+.fa-heart{
+    padding: 0.6rem;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+}
+
+.fa-heart:hover{
+    background-color: rgba(255, 0, 0, 0.205);
+    opacity: 0.8;
+    color: red !important;
+}
+
+.fa-comment{
+    padding: 0.6rem;
+    width: 35px;
+    height: 35px;
+    color: #6c757d;
+    border-radius: 100%;
+}
+
+.fa-comment:hover{
+    background-color: rgba(0, 68, 255, 0.205);
+    opacity: 0.7;
+    color: rgb(0, 4, 255) !important;
+}
+
+#userSearchInput{
+    height: 50px;
+}

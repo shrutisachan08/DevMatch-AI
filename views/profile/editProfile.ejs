@@ -1,0 +1,49 @@
+<% layout("./boilerplate/boilerplate") -%>
+
+    <div class="container text-white pt-3 pb-3">
+        <form action="/profile/<%= user.username %>?_method=PUT" method="post" class="needs-validation ms-5 me-5" enctype="multipart/form-data" novalidate>
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="userName" class="form-label">Name</label>
+                <input type="text" name="user[name]" class="form-control bg-dark text-white " id="userName"
+                    placeholder="Enter your Name" value="<%= user.name %>" required>
+                <div class="invalid-feedback">Please enter Your Name.</div>
+            </div>
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="userUsername" class="form-label">Username</label>
+                <input type="text" name="user[username]" class="form-control bg-dark text-white " id="userUsername"
+                    placeholder="Enter your username" value="<%= user.username %>" required>
+                <div class="invalid-feedback">Username cannot be empty.</div>
+            </div>
+
+            <!-- email -->
+            <div class="mb-3">
+                <label for="userEmail" class="form-label">Email</label>
+                <input name="user[email]" class="form-control bg-dark text-white" id="userEmail"
+                    placeholder="Enter your email" value="<%= user.email %>" required />
+                <div class="invalid-feedback">Please provide your code snippet.</div>
+            </div>
+
+            <!-- Image here -->
+
+            <div class="mb-3">
+                <label for="userImage" class="form-label">Upload Image:</label>
+                <input type="file" class="form-control bg-dark text-white" name="user[image]" id="userImage">
+            </div>
+
+            <!-- Bio -->
+            <div class="mb-3">
+                <label for="userBio" class="form-label">Bio</label>
+                <textarea name="user[bio]" class="form-control bg-dark text-white" id="userBio" rows="5"
+                    placeholder="Enter your Bio here...." required style="overflow-y: scroll; scrollbar-width: none; scroll-behavior: smooth;"><%= user.bio %></textarea>
+                <div class="invalid-feedback">Please provide your bio here.</div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-success">Update Profile</button>
+
+        </form>
+    </div>

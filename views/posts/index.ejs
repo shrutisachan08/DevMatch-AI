@@ -1,0 +1,139 @@
+<% layout("./boilerplate/boilerplate") -%>
+<% if(currUser){ %>
+    <%- include("../layouts/navbar.ejs") %>
+
+   <% } %>
+    <div class="container py-4" style="height: 200px !important;">
+            <div class="position-relative w-80 d-flex g-2 ms-4 me-4">
+                <i
+                    class="fa-solid fa-magnifying-glass position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                <input id="userSearchInput" class="form-control me-2 bg-dark rounded-pill ps-5 p-2" type="text" placeholder="Search"
+                    aria-label="Search"  placeholder="Search users..." style="background-color: black !important; border: 1px solid #3333338a; height: 40px !important;">
+                    <div id="searchResults" class="bg-dark text-light mt-2 p-2" style="display: none; position: absolute; top: 0px; z-index: 1000; width: 100%; min-height: 100px; overflow-y: auto; border-radius: 1rem;"></div>
+                </div>
+            </div>
+        <% for (let post of posts) { %>
+           
+            <div class="devConnect-post card bg-dark text-light mb-4 p-3 rounded-4 post-card"
+                data-created-at="<%= post.createdAt %>"
+                style="background-color: black !important; border-bottom: 1px solid #333;">
+
+                <div class="d-flex gap-3">
+                    <!-- Avatar -->
+                    <div>
+                        <a href="/profile/<%= post.owner.username %>">
+                            <img src="<%= post.owner.image.url %>" alt="<%= post.owner.name %>"
+                                class="rounded-circle border border-secondary"
+                                style="height:50px; width:50px; object-fit:cover;">
+                        </a>
+                    </div>
+
+                    <!-- Post Content -->
+                    <div class="flex-grow-1">
+                        <!-- Name and Username -->
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                            <p class="mb-0 fw-bold text-white">
+                                <a href="/profile/<%= post.owner.username %>" class="text-decoration-none text-white">
+                                    <%= post.owner.name %>
+                                </a>
+                            </p>
+                            <a href="/profile/<%= post.owner.username %>" class="text-decoration-none text-secondary">
+                                @<%= post.owner.username %>
+                            </a>
+                            <p class="mb-0 text-secondary small time">• Posted: Calculating...</p>
+                        </div>
+
+                        <!-- Title (Clickable Post Link) -->
+                        <h5 class="text-white mb-2">
+                            <a href="/posts/<%= post._id %>" class="text-decoration-none text-white">
+                                <%= post.title %>
+                            </a>
+                        </h5>
+
+                        <!-- Content -->
+                        <p class="text-light mb-3">
+                            <%= post.content %>
+                        </p>
+
+                        <!-- Code -->
+                        <pre class="rounded-4 p-3 text-success border border-dark"
+                            style="background-color: black; border-radius: 1rem;">
+<code style="background-color: inherit;"><%= post.code %></code></pre>
+
+                        <div class="icons d-flex gap-2">
+                            <form action="/posts/<%= post._id %>" method="POST">
+                                <button type="submit" class="like-btn" 
+                                data-post-id="<%= post._id %>"  style="border: none; background: none; padding: 0;">
+                                    <% if (post.likes.includes(currUser._id)) { %>
+                                        <!-- User already liked -->
+                                        <i class="fa-solid fa-heart" style="color: #ff0000; cursor: pointer;"></i>
+                                        <% } %>
+    
+                                            <% if(!post.likes.includes(currUser._id)) { %>
+                                                <!-- User has not liked yet -->
+                                                <i class="fa-regular fa-heart"
+                                                    style="color: rgb(94, 87, 87); cursor: pointer;"></i>
+                                                <% } %>
+                                </button>
+                                <span class="like-count">
+                                    <%= post.likes.length %>
+                                </span>
+                            </form>
+    
+                            <!-- Comment Icon -->
+                            <i class="fa-regular fa-comment"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
+        <script>
+    let arrOfUsers = <%- JSON.stringify(users) %>;
+
+    let userSearchInput = document.querySelector("#userSearchInput");
+    let searchResults = document.querySelector("#searchResults");
+
+    userSearchInput.addEventListener("input", () => {
+        let searchValue = userSearchInput.value.trim().toLowerCase();
+
+        if (searchValue === "") {
+            searchResults.style.display = "none";
+            searchResults.innerHTML = "";
+            return;
+        }
+
+        let matchedUsers = arrOfUsers.filter(user => user.username.toLowerCase().includes(searchValue));
+
+        if (matchedUsers.length > 0) {
+            searchResults.style.display = "block";
+            searchResults.innerHTML = matchedUsers.map(user => `
+                <div class="d-flex align-items-center gap-2 p-2 rounded-3 search-item" style="cursor:pointer;">
+                    <img src="${user.image.url}" alt="${user.name}" class="rounded-circle" style="height:30px; width:30px; object-fit:cover;">
+                    <div>
+                        <p class="mb-0 text-white fw-bold">${user.name}</p>
+                        <small class="text-secondary">@${user.username}</small>
+                    </div>
+                </div>
+            `).join("");
+
+            // Add click event on every matched item
+            document.querySelectorAll(".search-item").forEach((item, index) => {
+                item.addEventListener("click", () => {
+                    window.location.href = `/profile/${matchedUsers[index].username}`;
+                });
+            });
+        } else {
+            searchResults.style.display = "block";
+            searchResults.innerHTML = `<p class="mb-0 text-secondary p-2">No user found</p>`;
+        }
+    });
+
+    // Optional: hide dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest("#userSearchInput") && !e.target.closest("#searchResults")) {
+            searchResults.style.display = "none";
+        }
+    });
+</script>

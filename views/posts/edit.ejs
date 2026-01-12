@@ -1,0 +1,46 @@
+<% layout("./boilerplate/boilerplate") -%>
+<% if(currUser){ %>
+    <%- include("../layouts/navbar.ejs") %>
+
+   <% } %>
+    <div class="container p-3 text-white">
+        <h1 class="m-4">Edit Post</h1>
+        <form action="/posts/<%= post._id %>?_method=PUT" method="post" class="needs-validation m-5" novalidate>
+
+            <!-- Title -->
+            <div class="mb-3">
+                <label for="postTitle" class="form-label">Title</label>
+                <input type="text" name="post[title]" class="form-control bg-dark text-white " id="postTitle"
+                    placeholder="Enter your title" value="<%= post.title %>" required>
+                <div class="invalid-feedback">Please enter a title.</div>
+            </div>
+
+            <!-- Content -->
+            <div class="mb-3">
+                <label for="postContent" class="form-label">Content</label>
+                <textarea name="post[content]" class="form-control bg-dark text-white" id="postContent" rows="5"
+                    placeholder="Enter your content" required><%= post.content %></textarea>
+                <div class="invalid-feedback">Content cannot be empty.</div>
+            </div>
+
+            <!-- Code -->
+            <div class="mb-3">
+                <label for="postCode" class="form-label">Code</label>
+                <textarea name="post[code]" class="form-control bg-dark text-white" id="postCode" rows="10"
+                    placeholder="Enter your code" required style="overflow-y: scroll; scrollbar-width: none; scroll-behavior: smooth;"><%= post.code %></textarea>
+                <div class="invalid-feedback">Please provide your code snippet.</div>
+            </div>
+
+            <!-- Likes -->
+            <div class="mb-3">
+                <label for="postLikes" class="form-label">Likes</label>
+                <input type="number" name="post[likes]" class="form-control bg-dark text-white" id="postLikes"
+                    placeholder="Enter likes" min="0" value="<%= post.likes %>" required>
+                <div class="invalid-feedback">Likes must be 0 or more.</div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-success">Update Post</button>
+
+        </form>
+    </div>

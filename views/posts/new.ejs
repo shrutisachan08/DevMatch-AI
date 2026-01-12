@@ -1,0 +1,47 @@
+<% layout("./boilerplate/boilerplate") -%>
+<% if(currUser){ %>
+    <%- include("../layouts/navbar.ejs") %>
+
+   <% } %>
+    <div class="container my-5 text-white">
+        <h1 class="mb-4">Create New Post</h1>
+        <form action="/posts" method="post" class="needs-validation" enctype="application/x-www-form-urlencoded"
+            novalidate>
+
+            <!-- Title -->
+            <div class="mb-3 p-8">
+                <label for="postTitle" class="form-label">Title</label>
+                <input type="text" name="post[title]" class="form-control bg-dark text-white " id="postTitle"
+                    placeholder="Enter your title" required>
+                <div class="invalid-feedback">Please enter a title.</div>
+            </div>
+
+            <!-- Content -->
+            <div class="mb-3 p-8">
+                <label for="postContent" class="form-label">Content</label>
+                <textarea name="post[content]" class="form-control bg-dark text-white " id="postContent" rows="5"
+                    placeholder="Enter your content" required></textarea>
+                <div class="invalid-feedback">Content cannot be empty.</div>
+            </div>
+
+            <!-- Code -->
+            <div class="mb-3 p-8">
+                <label for="postCode" class="form-label">Code</label>
+                <textarea name="post[code]" class="form-control bg-dark text-white " id="postCode" rows="5"
+                    placeholder="Enter your code" required></textarea>
+                <div class="invalid-feedback">Please provide your code snippet.</div>
+            </div>
+
+            <!-- Likes -->
+            <div class="mb-3 p-8">
+                <label for="postLikes" class="form-label">Likes</label>
+                <input type="number" name="post[likes]" class="form-control bg-dark text-white " id="postLikes"
+                    placeholder="Enter likes" min="0" required>
+                <div class="invalid-feedback">Likes must be 0 or more.</div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+    </div>

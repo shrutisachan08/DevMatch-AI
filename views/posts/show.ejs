@@ -1,0 +1,163 @@
+<% layout("./boilerplate/boilerplate") -%>
+<% if(currUser){ %>
+    <%- include("../layouts/navbar.ejs") %>
+
+   <% } %>
+    <div class="devConnect-post post-container" style="background-color: #000; padding: 2rem; border-radius: 1rem;">
+
+        <div class="post devConnect-post d-flex flex-column" data-created-at="<%= post.createdAt %>"
+            style="gap: 1rem; border: 1px solid #333; border-radius: 1rem; padding: 1rem; background-color: #111;">
+
+            <div class="d-flex align-items-center">
+                <img src="<%= post.owner.image.url %>" alt="<%= post.owner.name %>" height="50" width="50"
+                    style="object-fit: cover; border-radius: 50%; margin-right: 1rem; border: 2px solid #222;">
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 fw-bold text-white">
+                            <a href="/profile/<%= post.owner.username %>" class="text-decoration-none text-white">
+                                <%= post.owner.name %>
+                            </a>
+                        </p>
+                        &nbsp; &nbsp;
+                        <a href="/profile/<%= post.owner.username %>" class="text-decoration-none text-secondary">
+                            @<%= post.owner.username %>
+                        </a>
+                        &nbsp;
+                        <p class="time text-secondary m-0">• Posted: Calculating...</p>
+                    </div>
+                </div>
+
+                <% if (String(currUser._id)===String(post.owner._id)) { %>
+                    <div class="menu ms-auto position-relative">
+                        <!-- 3 Dot Icon -->
+                        <i class="fa-solid fa-ellipsis text-secondary fs-4 post-option-icon moreBtn"
+                            style="cursor: pointer;"></i>
+
+                        <!-- Popup Card -->
+                        <div class="menu-content position-absolute menuCard"
+                            style="right: 0; top: 2rem; background-color: #000000; border: 1px solid #333; border-radius: 0.5rem; display: none;">
+                            <div class="d-flex flex-column gap-2 text-start">
+                                <a href="/posts/<%= post._id %>/edit"
+                                    class="text-white d-flex align-items-center justify-content-start text-decoration-none menu-option gap-2 ">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit Post
+                                </a>
+                                <form action="/posts/<%= post._id %>?_method=DELETE" method="post"
+                                    class="d-flex align-items-center gap-2 menu-option">
+                                    <i class="fa-solid fa-trash text-danger"></i>
+                                    <button class="btn btn-link text-danger p-0 m-0 text-decoration-none"
+                                        style="font-size: 1rem;">Delete
+                                        Post</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+
+            </div>
+
+            <h1 class="text-white fs-4 m-0">
+                <%= post.title %>
+            </h1>
+
+            <p class="text-secondary">
+                <%= post.content %>
+            </p>
+
+            <pre><code class="card border-dark p-3" style="background-color: #000; border-radius: 1rem; color: #0f0;"><%= post.code %></code></pre>
+
+            <form action="/posts/<%= post._id %>" method="POST">
+                <button type="submit" class="like-btn" 
+                data-post-id="<%= post._id %>"  style="border: none; background: none; padding: 0;">
+                    <% if (post.likes.includes(currUser._id)) { %>
+                        <!-- User already liked -->
+                        <i class="fa-solid fa-heart" style="color: #ff0000; cursor: pointer;"></i>
+                        <% } %>
+
+                            <% if(!post.likes.includes(currUser._id)) { %>
+                                <!-- User has not liked yet -->
+                                <i class="fa-regular fa-heart"
+                                    style="color: rgb(94, 87, 87); cursor: pointer;"></i>
+                                <% } %>
+                </button>
+                <span class="like-count text-white">
+                    <%= post.likes.length %>
+                </span>
+            </form>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comment-section mt-4">
+                <!-- Comment Form -->
+                <div class="comment-form d-flex align-items-center p-3"
+                    style="background-color: #111; border: 1px solid #333; border-radius: 1rem;">
+                    <img src="<%= currUser.image.url %>" alt="<%= currUser.name %>" height="50" width="50"
+                        style="border-radius: 50%; object-fit: cover; margin-right: 1rem; border: 2px solid #222;">
+
+                    <form action="/posts/<%= post._id %>/comment" method="post" class="w-100 d-flex flex-column gap-2"
+                        enctype="application/x-www-form-urlencoded" novalidate>
+                        <p class="text-white m-0">Replying to <a href="" class="text-primary">@<%= post.owner.username
+                                    %>
+                            </a></p>
+                        <input type="text" class="bg-transparent border-none outline-none text-white fs-5"
+                            name="comment[comment]" id="commentContent" placeholder="Post Your Reply" autocomplete="off"
+                            required style="border-bottom: 1px solid #333; padding: 0.5rem;">
+                        <div class="invalid-feedback text-danger">Please enter a Comment Here.</div>
+                        <div class="d-flex justify-content-end">
+                            <input type="submit" class="btn btn-light rounded-pill"
+                                style="font-weight: bold; opacity: 0.8;" value="Reply">
+                        </div>
+                    </form>
+                </div>
+
+                    <% for (let comment of post.comments) { %>
+                        <div class="card bg-transparent d-flex justify-content-between align-items-start mt-3 p-3"
+                            style="border: 1px solid #333; border-radius: 1rem;">
+                            <div class="d-flex w-100">
+                                <img src="<%= comment.author.image.url %>" alt="<%= comment.author.name %>" height="40"
+                                    width="40"
+                                    style="object-fit: cover; border-radius: 50%; margin-right: 1rem; border: 2px solid #222;">
+                                <div class="w-100 devConnect-post" data-created-at="<%= comment.createdAt %>">
+                                    <div class="d-flex align-items-center">
+                                        <p class="name text-white m-0"><b>
+                                                <%= comment.author.name %>
+                                            </b></p>
+                                        &nbsp;
+                                        <p class="username text-secondary m-0">@<%= comment.author.username %>
+                                        </p>
+                                        &nbsp;
+                                        <p class="text-secondary m-0 time">• Posted: Calculating...</p>
+                                    </div>
+                                    <p class="title pt-1 text-white m-0" style="font-size: 1.1rem;">
+                                        <%= comment.comment %>
+                                    </p>
+                                </div>
+                                <% if (String(currUser._id)===String(comment.author._id)) { %>
+                                    <div class="menu ms-auto position-relative">
+                                        <!-- 3 Dot Icon -->
+                                        <i class="fa-solid fa-ellipsis text-secondary fs-4 post-option-icon moreBtn"
+                                            style="cursor: pointer;"></i>
+
+                                        <!-- Popup Card -->
+                                        <div class="menu-content position-absolute menuCard"
+                                            style="right: 0; top: 2rem; background-color: #000000; border: 1px solid #333; border-radius: 0.5rem; display: none;">
+                                            <div class="d-flex flex-column gap-2 text-start">
+                                                <form
+                                                    action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+                                                    method="post" class="d-flex align-items-center gap-2 menu-option">
+                                                    <i class="fa-solid fa-trash text-danger"></i>
+                                                    <button
+                                                        class="btn btn-link text-danger p-0 m-0 text-decoration-none"
+                                                        style="font-size: 1rem;">Delete
+                                                        Post</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+
+        </div>
+    </div>

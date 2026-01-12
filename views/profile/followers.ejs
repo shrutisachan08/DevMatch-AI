@@ -1,0 +1,28 @@
+<% layout("./boilerplate/boilerplate") -%>
+    <div class="container">
+        <% for(let follower of followers) { let isFollowing=follower.followers.some(f=> String(f) ===
+            String(currUser._id));
+            let isFollower = currUser.followers.some(f => String(f) === String(follower._id));
+            %>
+            <div class="card d-flex flex-row text-white" style="background-color: black;">
+                <div class="w-20">
+                    <a href="/profile/<%= follower.username %>">
+                        <img src="<%= follower.image.url %>" alt="<%= follower.name %>"
+                            style="width: 50px; height: 50px; border-radius: 100%; object-fit: cover; margin: 1rem;">
+                    </a>
+                </div>
+                <div class="d-flex flex-column w-60 p-3">
+                    <a href="/profile/<%= follower.username%>" class="text-decoration-none" style="color: #363333;">
+                        <p class="p-0 m-0 text-white"><b>
+                                <%= follower.name %>
+                            </b></p>
+                        <p class="p-0 m-0">@<%= follower.username %>
+                        </p>
+                    </a>
+                    <p class="p-0 m-0 fs-6">
+                        <%= follower.bio %>
+                    </p>
+                </div>
+            </div>
+            <% } %>
+    </div>
