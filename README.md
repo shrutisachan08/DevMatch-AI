@@ -47,15 +47,18 @@ DevMatch-AI is a **full-stack web application** aimed at connecting developers t
 
 ##  Project Structure (Simplified)
 1️⃣ Clone the repository
-   git clone https://github.com/your-username/devmatch.ai.git
-   cd devmatch.ai
+    git clone https://github.com/your-username/devmatch.ai.git
+    cd devmatch.ai
+   
 2️⃣ Install dependencies
-   npm install
+    npm install
+   
 3️⃣ Environment Variables
-   MONGO_URI=your_mongodb_connection_string
-   SESSION_SECRET=your_secret
-   OPENAI_API_KEY=your_openai_key
+    MONGO_URI=your_mongodb_connection_string
+    SESSION_SECRET=your_secret
+    OPENAI_API_KEY=your_openai_key
+   
 4️⃣ Run the application
-   node app.js
+    node app.js
 
 
