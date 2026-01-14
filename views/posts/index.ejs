@@ -14,7 +14,7 @@
             </div>
         <% for (let post of posts) { %>
            
-            <div class="devConnect-post card bg-dark text-light mb-4 p-3 rounded-4 post-card"
+            <div class="devmatch-ai-post card bg-dark text-light mb-4 p-3 rounded-4 post-card"
                 data-created-at="<%= post.createdAt %>"
                 style="background-color: black !important; border-bottom: 1px solid #333;">
 
@@ -90,8 +90,7 @@
     </div>
 
         <script>
-    let arrOfUsers = <%- JSON.stringify(users) %>;
-
+    let arrOfUsers = "<%- JSON.stringify(users||[]) %>"
     let userSearchInput = document.querySelector("#userSearchInput");
     let searchResults = document.querySelector("#searchResults");
 

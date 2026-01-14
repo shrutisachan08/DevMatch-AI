@@ -37,7 +37,7 @@ function getTimeAgo(dateString) {
 }
 
 // Now loop through and update your posts
-document.querySelectorAll(".devConnect-post").forEach(postEl => {
+document.querySelectorAll(".devmatch-ai-post").forEach(postEl => {
     const timeText = getTimeAgo(postEl.dataset.createdAt);
     postEl.querySelector(".time").innerText = timeText;
 });

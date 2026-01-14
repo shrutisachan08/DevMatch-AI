@@ -5,17 +5,35 @@ module.exports.renderSignUpForm = (req, res) => {
 }
 
 module.exports.signUpUser = async (req, res) => {
+  try {
+    console.log("REQ BODY:", req.body);
+    //console.log("REQ FILE:", req.file); // 🔥 VERY IMPORTANT
+
     let { user } = req.body;
-    user.image = {
-        filename: req.file.filename,
-        url: req.file.path
+
+    /*if (!req.file) {
+      req.flash("error", "Image upload failed");
+      return res.redirect("/register");
     }
-    let newUser = new User({ ...user });  // password will be auto-hashed
-    let savedUser = await newUser.save();
+
+    user.image = {
+      filename: req.file.filename,
+      url: req.file.path
+    };*/
+
+    const newUser = new User(user);
+    const savedUser = await newUser.save();
+
     req.session.user = savedUser;
     req.flash("success", "Welcome to DevConnect!");
-    res.redirect("/posts");
-}
+    return res.redirect("/posts");
+
+  } catch (err) {
+    console.error("SIGNUP ERROR:", err);
+    return res.redirect("/register");
+  }
+};
+
 
 module.exports.renderLoginForm = (req, res) => {
     res.render("users/login.ejs");
