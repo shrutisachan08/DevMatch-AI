@@ -7,7 +7,9 @@ router.route("/").get(isLoggedIn, controllers.index).post(isLoggedIn, validatePo
 
 router.get("/new", isLoggedIn, controllers.renderNewPostForm)
 
-router.route("/:id").get(isLoggedIn, controllers.showPost).put(isLoggedIn, isOwner, validatePost, controllers.updatePost).delete(isLoggedIn, isOwner, controllers.destroyPost).post( controllers.likePost);
+router.post("/:id/like", isLoggedIn, controllers.likePost);
+
+router.route("/:id").get(isLoggedIn, controllers.showPost).put(isLoggedIn, isOwner, validatePost, controllers.updatePost).delete(isLoggedIn, isOwner, controllers.destroyPost);
 
 router.get("/:id/edit", isLoggedIn, isOwner, controllers.renderEditForm)
 

@@ -108,7 +108,7 @@ if (likeBtn) {
             let id = this.dataset.postId;
 
             try {
-                let res = await fetch(`http://localhost:8080/posts/${id}`, {
+                let res = await fetch(`/posts/${id}/like`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

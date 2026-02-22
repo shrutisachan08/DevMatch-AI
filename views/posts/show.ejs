@@ -66,24 +66,20 @@
 
             <pre><code class="card border-dark p-3" style="background-color: #000; border-radius: 1rem; color: #0f0;"><%= post.code %></code></pre>
 
-            <form action="/posts/<%= post._id %>" method="POST">
-                <button type="submit" class="like-btn" 
-                data-post-id="<%= post._id %>"  style="border: none; background: none; padding: 0;">
-                    <% if (post.likes.includes(currUser._id)) { %>
-                        <!-- User already liked -->
-                        <i class="fa-solid fa-heart" style="color: #ff0000; cursor: pointer;"></i>
-                        <% } %>
+            <% const liked = post.likes.some(id => String(id) === String(currUser._id)); %>
 
-                            <% if(!post.likes.includes(currUser._id)) { %>
-                                <!-- User has not liked yet -->
-                                <i class="fa-regular fa-heart"
-                                    style="color: rgb(94, 87, 87); cursor: pointer;"></i>
-                                <% } %>
-                </button>
-                <span class="like-count text-white">
-                    <%= post.likes.length %>
-                </span>
-            </form>
+    <form action="/posts/<%= post._id %>/like" method="POST">
+    <button type="submit" style="border: none; background: none; padding: 0;">
+        <% if (liked) { %>
+            <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+        <% } else { %>
+            <i class="fa-regular fa-heart" style="color: rgb(94,87,87);"></i>
+        <% } %>
+    </button>
+    <span class="like-count text-white">
+        <%= post.likes.length %>
+    </span>
+  </form>
         </div>
 
         <!-- Comment Section -->

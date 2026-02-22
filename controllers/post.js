@@ -6,27 +6,31 @@ const ExpressError = require("../utility/ExpressError");
 module.exports.index = async (req, res) => {
     let posts = await Post.find().populate("owner");;
     let users = await User.find();
-    res.render("posts/index", { title: "All Posts", posts, users })
+    res.render("posts/index", { 
+    title: "All Posts", 
+    posts, 
+    users,
+    currUser: req.user || req.session.user
+});
 }
-
 module.exports.renderNewPostForm = async (req, res) => {
     res.render("posts/new", { title: "Create Posts" });
 }
 
 module.exports.createPost = asyncWrapper(async (req, res) => {
-    let { title, content, code, likes } = req.body.post;
+    let { title, content, code } = req.body.post;
 
-    likes = parseInt(likes) || 0;
+    let newPost = new Post({
+        title,
+        content,
+        code,
+        owner: req.user._id,
+        likes: []   
+    });
 
-    let newPost = new Post({ title, content, code, likes, owner: req.session.user });
+    await newPost.save();
 
-    let postRes = await newPost.save();
-    if (postRes) {
-        req.flash("success", "Successfully Created New Post")
-    } else {
-        req.flash("error", "Error While Creating Post");
-        return res.redirect("/posts/new")
-    }
+    req.flash("success", "Successfully Created New Post");
     res.redirect("/posts");
 });
 
@@ -67,7 +71,6 @@ module.exports.updatePost = asyncWrapper(async (req, res) => {
             title: post.title,
             content: post.content,
             code: post.code,
-            likes: post.likes
         }
     }, { new: true, });
 
@@ -89,29 +92,35 @@ module.exports.destroyPost = asyncWrapper(async (req, res) => {
     }
     res.redirect("/posts");
 })
-
 module.exports.likePost = asyncWrapper(async (req, res) => {
     let { id } = req.params;
-        let userId = res.locals.currUser._id; // Assuming user is logged in
+    let userId = req.session.user._id;
 
-        let post = await Post.findById(id);
+    let post = await Post.findById(id);
+    if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+    }
 
-        let liked = false;
+    const alreadyLiked = post.likes.some(
+        likeId => likeId.equals(userId)
+    );
 
-        let likedIndex = post.likes.indexOf(userId);
+    let liked;
 
-        if (likedIndex === -1) {
-            post.likes.push(userId);
-            liked = true;
-        } else {
-            post.likes.splice(likedIndex, 1);
-            liked = false;
-        }
+    if (alreadyLiked) {
+        post.likes = post.likes.filter(
+            likeId => !likeId.equals(userId)
+        );
+        liked = false;
+    } else {
+        post.likes.push(userId);
+        liked = true;
+    }
 
-        await post.save();
+    await post.save();
 
-        res.json({ 
-            likesCount: post.likes.length, 
-            liked: liked 
-        });
-})
+    res.json({
+        likesCount: post.likes.length,
+        liked: liked
+    });
+});
