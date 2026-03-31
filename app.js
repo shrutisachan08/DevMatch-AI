@@ -197,6 +197,7 @@ app.use("/", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/posts/:id/comment", commentRoutes);
 app.use("/profile/:username", profileRoutes);
+app.use("/messages",require("./routes/messages"))
 
 /* ================= ERROR HANDLING ================= */
 app.use((req, res, next) => {

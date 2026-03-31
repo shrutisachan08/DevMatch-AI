@@ -7,7 +7,7 @@ module.exports.renderSignUpForm = (req, res) => {
 module.exports.signUpUser = async (req, res) => {
   try {
     console.log("REQ BODY:", req.body);
-    //console.log("REQ FILE:", req.file); // 🔥 VERY IMPORTANT
+  
 
     let { user } = req.body;
 
@@ -47,10 +47,10 @@ module.exports.loginUser = async (req, res) => {
         req.flash("error", "Invalid username or password.");
         return res.redirect("/login");
     }
-
     let isValid = await user.validatePassword(password);
 
     if (isValid) {
+        req.session.userId = user._id; 
         req.session.user = user;
         req.flash("success", `Welcome back, ${username}!`);
         let path = req.session.redirectUrl || '/posts';

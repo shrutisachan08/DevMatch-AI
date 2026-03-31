@@ -55,7 +55,9 @@
                                   >
                                     <%= isFollowing ? (isFollower ? "Following (Follows You)" : "Following" ) : (isFollower ? "Follow Back" : "Follow" ) %>
                                   </button>
+                                  <a href="/messages/<%= userProfile._id %>">
                             <button class="btn btn-outline-secondary btn-sm rounded-pill">Message</button>
+                            </a>
                         <% } %>
                         <% if(String(currUser._id) === String(userProfile._id)) {%>
                             <form action="/profile/<%= userProfile.username %>/edit" method="get" class="d-flex">
