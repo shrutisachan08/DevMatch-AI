@@ -9,7 +9,16 @@ router.get('/',async(req,res)=>{
       { receiver: userId }
     ]
   }).populate("sender receiver");
-  res.render("message/inbox", { messages,userId });
+  const chatMap=new Map();
+  messages.forEach(msg=>{
+    const otherUser=msg.sender._id.toString()===userId.toString()?msg.receiver:msg.sender;
+    chatMap.set(otherUser._id.toString(),{
+        user:otherUser,
+        lastmessage:msg.text
+    });
+  });
+  const chats=Array.from(chatMap.values());
+  res.render("message/inbox", { chats });
 });
 
 //chat page route

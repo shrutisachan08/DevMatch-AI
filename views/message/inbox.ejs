@@ -1,15 +1,12 @@
 <h2>Your Message</h2>
-<%if(messages.length===0){%>
+<%if(chats.length===0){%>
 <p>No conversations yet!</p>
 <%}%>
-<% messages.forEach(msg => { %>
-  <div class="chat-preview">
-    <%
-  const senderId = msg.sender?._id ? msg.sender._id.toString() : msg.sender?.toString();
-  const receiverId = msg.receiver?._id ? msg.receiver._id.toString() : msg.receiver?.toString();
-    %>
-   <a href="/messages/<%= senderId === userId.toString() ? receiverId : senderId %>">
-      <p><%= msg.text %></p>
-    </a>
-  </div>
+<% chats.forEach(chat => { %>
+    <div class="chat-preview">
+        <a href="/messages/<%= chat.user._id %>">
+            <h4><%= chat.user.username %></h4>
+            <p><%= chat.lastMessage %></p>
+        </a>
+    </div>
 <% }) %>

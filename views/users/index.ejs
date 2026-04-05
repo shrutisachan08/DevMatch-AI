@@ -1,0 +1,11 @@
+<h2>All Users</h2>
+
+<% use.forEach(user => { %>
+    <div style="margin-bottom: 10px;">
+        <h3><%= user.username %></h3>
+
+        <a href="/messages/<%= user._id %>">
+            Message
+        </a>
+    </div>
+<% }) %>
